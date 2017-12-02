@@ -1,18 +1,22 @@
 {
   "name": "generator-pinkhippos",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "generators/app/index.js",
   "license": "MIT",
   "files": [
-    "app",
-    "plugin",
-    "action_files",
-    "express_router"
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "pinkhippos"
   ],
   "dependencies": {
     "chalk": "^2.3.0",
     "coffeescript": "^2.0.3",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
-  }
+  },
+  "description": "Yeoman generator for Pink Hippos projects",
+  "repository": "https://github.com/PinkHippos/generator-pinkhippos.git",
+  "author": "chippawah <charles.cantrell@me.com>"
 }
