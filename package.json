@@ -1,0 +1,18 @@
+{
+  "name": "generator-pinkhippos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "app",
+    "plugin",
+    "action_files",
+    "express_router"
+  ],
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "coffeescript": "^2.0.3",
+    "yeoman-generator": "^2.0.1",
+    "yosay": "^2.0.1"
+  }
+}
