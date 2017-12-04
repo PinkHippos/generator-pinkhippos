@@ -3,11 +3,6 @@ chalk = require 'chalk'
 yosay = require 'yosay'
 
 module.exports = class PinkHipposGenerator extends Generator
-  # :app Helper Methods
-  _update_opts: (update)=>
-    @log "Updating options with #{JSON.stringify update}"
-    @options = Object.assign {}, @options, update
-
   # :app Constructor Block
   constructor: (args, options)->
     super args, options
@@ -69,6 +64,27 @@ module.exports = class PinkHipposGenerator extends Generator
   intializing: =>
     @log "Intializing :app"
 
+  # :app Helper Methods (_ prefixed fns will not be run by default)
+  _update_opts: (update)=>
+    @log "Updating options with #{JSON.stringify update}"
+    @options = Object.assign {}, @options, update
+  _next_numbered_name: (name, series)=>
+    match = name.match /_[0-9]+$/
+    number_in_series = if match
+      match[0].split('_').join('')
+    else
+      false
+    if number_in_series
+      base = name.split('_')
+      # Pop off the numbered suffix
+      base.pop()
+      next_in_series = "#{base.join '_'}_#{parseInt(number_in_series) + 1}"
+    else
+      next_in_series = "#{name}_1"
+    if series.indexOf(next_in_series) != -1
+      @_next_numbered_name next_in_series, series
+    else
+      next_in_series
   # :app Write Block
   writing: =>
     @log "Writing files for :app"
