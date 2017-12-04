@@ -93,11 +93,13 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
   # :seneca_plugin Writing Block
   writing: =>
     @log "Writing files for :seneca_plugin"
-    Object.keys(@config.get 'plugins').forEach (plugin_name)=>
+    plugins = @config.get 'plugins'
+    Object.keys(plugins).forEach (plugin_name)=>
+      actions = plugins[plugin_name].actions
       @fs.copyTpl(
         @templatePath 'plugin_index.coffee'
         @destinationPath "src/plugins/#{plugin_name}/index.coffee"
-        {plugin_name}
+        {plugin_name, actions}
       )
 
   # :seneca_plugin Conflicts Block

@@ -43,7 +43,12 @@ module.exports = class PinkHipposSenecaActionGenerator extends PinkHipposPluginG
     @log "Building #{pattern} in :seneca_action"
 
   writing: =>
-    @log "Writing files for :seneca_action"
+    @config.get('plugins')[@options.plugin_name].actions.forEach (command)=>
+      @fs.copyTpl(
+        @templatePath 'action_file.coffee'
+        @destinationPath "src/plugins/#{@options.plugin_name}/#{command}.coffee"
+        {command}
+      )
 
   conflicts: =>
     @log "Handling conflicts for :seneca_action"
