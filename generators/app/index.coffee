@@ -47,9 +47,7 @@ module.exports = class PinkHipposGenerator extends Generator
 
   # :app Configure Block
   configuring: =>
-    @log "Configuring :app"
     if @options.create_plugins
-      @log "Setting configuration to create plugins"
       @config.set {
         create_plugins: @options.create_plugins
         default_plugin_role: @options.default_plugin_role
@@ -66,7 +64,6 @@ module.exports = class PinkHipposGenerator extends Generator
 
   # :app Helper Methods (_ prefixed fns will not be run by default)
   _update_opts: (update)=>
-    @log "Updating options with #{JSON.stringify update}"
     @options = Object.assign {}, @options, update
   _next_numbered_name: (name, series)=>
     match = name.match /_[0-9]+$/
@@ -87,16 +84,12 @@ module.exports = class PinkHipposGenerator extends Generator
       next_in_series
   # :app Write Block
   writing: =>
-    @log "Writing files for :app"
 
   # :app Conflicts Block
   conflicts: =>
-    @log "Handling conflicts for :app"
 
   # :app Install Block
   install: =>
-    @log "Running install for :app"
 
   # :app End Block
   end: =>
-    @log "All done in :app"

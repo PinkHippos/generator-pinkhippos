@@ -7,15 +7,20 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
   constructor: (args, opts)->
     super args, opts
     # @log "Constructing :seneca_plugin generator"
-    @argument 'role', {
+    @option 'role', {
       type: String
       description: "Sets the 'role' key for the plugin that will be generated"
       default: @options.role ? @config.get 'default_plugin_role'
     }
-    @argument 'create_actions', {
-      type: Boolean
+    @option 'create-actions', {
+      type: (input)->
+        if input is 'false'
+          input = false
+        else
+          input = true
+        input
       description: 'Determines if actions will be created for the plugins'
-      default: (@options.create_actions ? @config.get 'create_actions') or true
+      default: true
       required: false
     }
     @options.plugins = (@options.plugins ? @config.get('plugins')) or {}
@@ -33,10 +38,10 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
         else
           true
     action_prompt =
-      name: 'create_actions'
+      name: 'create-actions'
       type: 'confirm'
       message: "Would you like to create actions for the plugin?"
-      default: @options.create_actions
+      default: @options['create-actions']
     config_prompts = [
       role_prompt
       action_prompt
@@ -48,7 +53,7 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
       if plugins.hasOwnProperty role
         role = @_next_numbered_name role, Object.keys plugins
       plugins[role] =
-        create_actions: answers.create_actions ? @options.create_actions
+        'create-actions': answers['create-actions'] ? @options['create-actions']
       @_update_opts {plugins}
       @prompt [{
         type: 'confirm'
@@ -60,30 +65,27 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
         if answers.create_another
           @prompting()
         else
-          @log "Plugins to be created #{Object.keys(@options.plugins).join ' '}"
-          @log yosay "All done asking about plugins"
+          @log yosay "Plugins to be created #{Object.keys(@options.plugins).join ', '}"
 
   # :seneca_plugin Configure Block
   configuring: =>
-    @log "Configuring :seneca_plugin"
     @config.set 'plugins', Object.assign {}, @config.get('plugins'), @options.plugins
 
 
   # :seneca_plugin Intializing Block
   intializing: =>
-    @log "Intializing :seneca_plugin"
     keys = Object.keys(@config.get 'plugins')
     with_actions_count = 0
     keys.forEach (plugin_name)=>
       plugin_opts = @config.get('plugins')[plugin_name]
-      if plugin_opts.create_actions
+      if plugin_opts['create-actions']
         with_actions_count++
         @composeWith 'pinkhippos:seneca_action', {
           plugin_name
         }
     @log yosay """
-    Going to create #{keys.length} plugin(s)
-    #{with_actions_count} will be created with actions
+    Creating #{keys.length} plugin(s),
+    #{with_actions_count} with actions
     """
 
   # :seneca_plugin Queued Helpers Block (these are run by default)
@@ -92,7 +94,6 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
 
   # :seneca_plugin Writing Block
   writing: =>
-    @log "Writing files for :seneca_plugin"
     plugins = @config.get 'plugins'
     Object.keys(plugins).forEach (plugin_name)=>
       actions = plugins[plugin_name].actions ? []
@@ -104,15 +105,12 @@ module.exports = class PinkHipposPluginGenerator extends PinkHipposGenerator
 
   # :seneca_plugin Conflicts Block
   conflicts: =>
-    @log "Handling conflicts for :seneca_plugin"
 
   # :seneca_plugin Install Block
   install: =>
-    @log "Running install for :seneca_plugin"
 
   # :seneca_plugin End Block
   end: =>
-    @log "All done in :seneca_plugin"
 
 
   # constructor: (args, opts)->

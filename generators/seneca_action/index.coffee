@@ -18,10 +18,8 @@ module.exports = class PinkHipposSenecaActionGenerator extends PinkHipposGenerat
       default: @options.command ? 'dummy_cmd'
     }
   prompting: =>
-    @log "Prompting :seneca_action"
 
   configuring: =>
-    @log "Configuring :seneca_action for #{@options.plugin_name}"
     current_plugins = @config.get('plugins') ? {}
     current_config = current_plugins[@options.plugin_name] ? {}
     actions = current_config.actions ? []
@@ -36,11 +34,10 @@ module.exports = class PinkHipposSenecaActionGenerator extends PinkHipposGenerat
 
 
   intializing: =>
-    @log "Intializing :seneca_action"
 
   build_action: =>
     pattern = "role:#{@options.plugin_name}, cmd:#{@options.command}"
-    @log "Building #{pattern} in :seneca_action"
+    @log "Building #{pattern}"
 
   writing: =>
     @config.get('plugins')[@options.plugin_name].actions.forEach (command)=>
@@ -51,10 +48,7 @@ module.exports = class PinkHipposSenecaActionGenerator extends PinkHipposGenerat
       )
 
   conflicts: =>
-    @log "Handling conflicts for :seneca_action"
 
   install: =>
-    @log "Running install for :seneca_action"
 
   end: =>
-    @log "All done in :seneca_action"
