@@ -14,12 +14,12 @@ _stubs =
 
 _fresh_instance = (done)->
   # Using proxyquire here so we can stub out the required helper files
-  action_file_with_stubs = proxyquire "#{__dirname}/../../src/plugins/<%= plugin_name %>/<%= action_cmd %>", {
+  action_file_with_stubs = proxyquire "#{__dirname}/../../src/plugins/<%= plugin_name %>/<%= command %>", {
     './dummy_fn': _stubs.dummy_fn_stub
   }
   # Use proxquire again here so we are using the action file that's got stubbed helpers
   plugin_in_test = proxyquire "#{__dirname}/../../src/plugins/<%= plugin_name %>", {
-    './evaluate_residences': action_file_with_stubs
+    './<%= command %>': action_file_with_stubs
   }
   # Set up plugin with stubbed out seneca actions
   mock_plugin = (options)->
@@ -29,9 +29,9 @@ _fresh_instance = (done)->
 
 default_action_opts =
   role: '<%= plugin_name %>'
-  cmd: '<%= action_cmd %>'
+  cmd: '<%= command %>'
 
-describe '|--- role: <%= plugin_name %> cmd: <%= action_cmd %> ---|', ->
+describe '|--- role: <%= plugin_name %> cmd: <%= command %> ---|', ->
 
   describe 'bootstrapping', ->
     test_instance = null
@@ -39,8 +39,8 @@ describe '|--- role: <%= plugin_name %> cmd: <%= action_cmd %> ---|', ->
       test_instance = _fresh_instance done
         .ready ->
           done()
-    it "has the pattern '<%= action_cmd %>'", ->
-      pattern = 'role:<%= plugin_name %>,cmd:<%= action_cmd %>'
+    it "has the pattern '<%= command %>'", ->
+      pattern = 'role:<%= plugin_name %>,cmd:<%= command %>'
       has_pattern = test_instance.has pattern
       expect(has_pattern).to.equal true
 
