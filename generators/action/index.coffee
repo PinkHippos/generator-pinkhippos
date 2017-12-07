@@ -17,10 +17,6 @@ module.exports = class PinkHipposSenecaActionGenerator extends PinkHipposGenerat
       description: 'The value for the cmd of the action.'
       default: @options.command ? 'dummy_cmd'
     }
-    @option 'create-tests', {
-      type: Boolean
-      description: 'Determines if a test file will be generated for the action.'
-    }
   prompting: =>
     @prompt [
       {
