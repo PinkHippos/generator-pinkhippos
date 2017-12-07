@@ -13,7 +13,6 @@ module.exports = class PinkHipposPluginGenerator extends Generator
       description: "Sets the 'role' key for the plugin that will be generated"
       default: 'ph_dummy_plugin'
     }
-
   ####
   # :seneca_plugin Prompt Block
   prompting: =>
@@ -21,7 +20,10 @@ module.exports = class PinkHipposPluginGenerator extends Generator
   ####
   # :seneca_plugin Configure Block
   configuring: =>
-
+    @config.defaults {
+      plugins:
+        "#{@options.role}": {}
+    }
   ####
   # :seneca_plugin Intializing Block
   intializing: =>
