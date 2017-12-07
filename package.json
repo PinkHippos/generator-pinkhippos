@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "generators/app/index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha --require coffeescript/register $PWD/test/*.spec.coffee"
+  },
   "files": [
     "generators"
   ],
@@ -18,5 +21,11 @@
   },
   "description": "Yeoman generator for Pink Hippos projects",
   "repository": "https://github.com/PinkHippos/generator-pinkhippos.git",
-  "author": "chippawah <charles.cantrell@me.com>"
+  "author": "chippawah <charles.cantrell@me.com>",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "yeoman-assert": "^3.1.0",
+    "yeoman-test": "^1.7.0"
+  }
 }
