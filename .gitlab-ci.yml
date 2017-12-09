@@ -1,0 +1,31 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+  - node_modules/
+
+test_wit_ai:
+  script:
+   - npm install
+   - npm run test:wit_ai
+
+test_util:
+  script:
+   - npm install
+   - npm run test:util
+   
+test_todo:
+  script:
+   - npm install
+   - npm run test:todo
+   
+test_pusher:
+  script:
+   - npm install
+   - npm run test:pusher
+
